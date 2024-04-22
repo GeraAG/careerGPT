@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
+from django.contrib.auth.forms import UserCreationForm
 
 def home_view(request):
     return render(request, "pages/home.html", {})
 
 def signup_view(request):
     #remake with forms
+    user = UserCreationForm()
     first_name = request.POST["first_name"]
     last_name = request.POST["last_name"]
     email = request.POST["email"]
