@@ -1,18 +1,25 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
-from django.contrib.auth.forms import UserCreationForm
+from dotenv import load_dotenv
+from openai import OpenAI
+
+load_dotenv()
+client = OpenAI()
 
 def home_view(request):
-    return render(request, "pages/home.html", {})
+    if request.method == "POST":
+        return render(request, "pages/home.html", {})
 
-def signup_view(request):
-    #remake with forms
-    user = UserCreationForm()
-    first_name = request.POST["first_name"]
-    last_name = request.POST["last_name"]
-    email = request.POST["email"]
-    password = request.POST["password"]
-    user = User.objects.create_user(username=email, email=email, password=password, first_name=first_name, last_name=last_name)
-    user.save()
-    return redirect('login')
+    '''
+    completion = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."},
+        {"role": "user", "content": "Compose a poem that explains the concept of recursion in programming."}
+    ]
+    )
+
+    print(completion.choices[0].message)'''
+
+    return render(request, "pages/home.html", {})
