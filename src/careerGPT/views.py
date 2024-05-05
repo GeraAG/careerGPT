@@ -9,7 +9,8 @@ client = OpenAI()
 
 def home_view(request):
     if request.method == "POST":
-        return render(request, "pages/home.html", {})
+        uploaded_file = request.FILES['file']
+        return render(request, "pages/upload_success.html", {'file_name':uploaded_file.name})
 
 
     '''completion = client.chat.completions.create(
