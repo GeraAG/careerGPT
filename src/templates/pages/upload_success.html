@@ -4,7 +4,7 @@
 <div class="w-10/12 mx-auto pt-4">
     <div class="flex justify-center">
         <h1>Upload Successful!</h1>
-        <p>File URL: <a href="{{ file_url }}">{{ file_url }}</a></p>
+        <p>File URL: {{ file_url }}</p>
         {% if extracted_text %}
             <h2>Extracted Text:</h2>
             <pre>{{ extracted_text }}</pre>

@@ -10,6 +10,7 @@ python = "^3.12.2"
 django = "4.2"
 python-dotenv = "^1.0.1"
 openai = "^1.23.2"
+pymupdf = "^1.24.2"
 
 
 [build-system]
