@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="w-10/12 mx-auto pt-4">
-    <div class="flex justify-center">
+    <div class="flex flex-col justify-center items-center">
         <h1>Upload Successful!</h1>
         <p>File URL: {{ file_url }}</p>
         {% if extracted_text %}
@@ -10,6 +10,5 @@
             <pre>{{ extracted_text }}</pre>
         {% endif %}
     </div>
-
 </div>
 {% endblock %}
