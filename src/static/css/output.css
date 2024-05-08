@@ -619,6 +619,16 @@ video {
   width: 33.333333%;
 }
 
+.min-w-min {
+  min-width: -moz-min-content;
+  min-width: min-content;
+}
+
+.min-w-fit {
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -778,6 +788,11 @@ video {
 .text-gray-500 {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
+}
+
+.text-copper-canyon-600 {
+  --tw-text-opacity: 1;
+  color: rgb(217 82 6 / var(--tw-text-opacity));
 }
 
 .shadow-\[0_4px_9px_-4px_rgba\(51\2c 45\2c 45\2c 0\.7\)\] {

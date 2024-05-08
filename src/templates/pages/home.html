@@ -4,11 +4,11 @@
 <div class="w-10/12 mx-auto pt-4">
     <div class="flex justify-center">
         <div>
-            <h1 class="text-copper-canyon-700 text-2xl font-extrabold">Upload CV as PDF</h1>
+            <h1 class="text-copper-canyon-600 text-2xl font-extrabold">Upload CV as PDF</h1>
         </div>
     </div>
     <!-- component -->
-    <form method="post" enctype="multipart/form-data" class="mt-10">
+    <form id="upload-form" method="post" enctype="multipart/form-data" class="mt-10">
         <div class="flex flex-col justify-center items-center">
             {% csrf_token %}
             {{ form }}
@@ -30,4 +30,5 @@
         </div>
     </form>
 </div>
+<div id="upload-form-response"></div>
 {% endblock %}

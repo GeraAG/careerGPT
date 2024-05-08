@@ -1,7 +1,7 @@
 import os
 import fitz
 from django.shortcuts import render
-from django.contrib.auth.models import User
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.core.files.storage import FileSystemStorage
 from dotenv import load_dotenv
@@ -26,7 +26,6 @@ def home_view(request):
             uploaded_file_url = fss.url(filename)
 
             # Perform operations on the uploaded PDF using PyMuPDF
-            # This section demonstrates basic text extraction
             with fitz.open(fss.path(filename)) as doc:
                 text = ""
                 for page in doc:
@@ -34,12 +33,15 @@ def home_view(request):
 
             # You can add your custom logic here to process the extracted text or perform other PDF operations
 
-            os.remove(fss.path(filename))  # Remove the uploaded file after processing (optional)
 
-            context = {'form': form, 'file_url': uploaded_file_url, 'extracted_text': text}
-            return render(request, 'pages/upload_success.html', context)
+
+
+            os.remove(fss.path(filename))  # Remove the uploaded file after processing
+            response_data = {'message': text, 'file_url': uploaded_file_url}
+            return JsonResponse(response_data)
         else:
-            print(form.errors)
+            errors = form.errors.as_json()
+            return JsonResponse({'errors': errors}, status=400)
     else:
         form = UploadForm()
     context = {'form': form}
