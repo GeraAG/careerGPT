@@ -2,4 +2,5 @@ local-cdn/
 node_modules/
 src/careerGPT/__pycache__/
 src/db.sqlite3
+src/tmp/
 .env
