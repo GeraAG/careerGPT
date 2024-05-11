@@ -35,6 +35,7 @@ def home_view(request):
                     text = ""
                     for page in doc:
                         text += page.get_text()
+                os.remove(fss.path(filename))  # Remove the uploaded file after processing
 
                 # You can add your custom logic here to process the extracted text or perform other PDF operations
 
@@ -54,8 +55,8 @@ def home_view(request):
             else:
                 data = cached_data
                 print(data)
+                os.remove(fss.path(filename))  # Remove the uploaded file after processing
 
-            os.remove(fss.path(filename))  # Remove the uploaded file after processing
             response_data = {'message': data, 'file_url': uploaded_file_url}
             return JsonResponse(response_data)
         else:
