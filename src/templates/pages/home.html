@@ -12,7 +12,7 @@
         <div class="flex flex-col justify-center items-center">
             {% csrf_token %}
             {{ form }}
-
+            <input type="hidden" name="try_again" id="tryAgainInput" value="0">
             <button type="submit" id="upload-button" class="m-2 inline-block rounded-full bg-copper-canyon-500 text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] hover:bg-copper-canyon-600 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-copper-canyon-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] active:bg-copper-canyon-700 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal transition duration-150 ease-in-out focus:outline-none focus:ring-0">Upload
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -30,6 +30,14 @@
         </div>
     </form>
     <div id="loading-spinner" style="display: none;">Loading...</div>
+    <div id="top-separator" style="display: none;">
+        <div class="relative flex py-5 items-center">
+            <div class="flex-grow border-t border-copper-canyon-400"></div>
+            <span class="flex-shrink mx-4 text-copper-canyon-950">Ideas</span>
+            <div class="flex-grow border-t border-copper-canyon-400"></div>
+            <button id="try-again-button">Try Again</button>
+        </div>
+    </div>
     <div id="upload-form-response"></div>
 </div>
 
