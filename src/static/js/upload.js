@@ -19,6 +19,9 @@ function submitForm(formData) {
         document.getElementById('upload-form-response').innerHTML = htmlContent;
         // Show the "Try Again" button
         document.getElementById('top-separator').style.display = 'block';
+        document.getElementById('upload-form-response').style.display = 'block';
+        document.getElementById('tryAgainInput').value = '0';
+        document.getElementById('loading-animation').style.display = 'none';
     })
     .catch(error => console.error('Error:', error));
 }
@@ -27,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
         var formData = new FormData(this);
         submitForm(formData);
+        document.getElementById('loading-animation').style.display = 'block';
 
     });
 
@@ -35,8 +39,10 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
         // Set the value of the hidden input field to indicate "Try Again"
         document.getElementById('tryAgainInput').value = '1';
+        document.getElementById('upload-form-response').style.display = 'none';
         // Submit the form
         var formData = new FormData(document.getElementById('upload-form'));
         submitForm(formData);
+        document.getElementById('loading-animation').style.display = 'block';
     });
 });

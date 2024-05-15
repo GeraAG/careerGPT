@@ -17,14 +17,19 @@ def home_view(request):
         form = UploadForm(request.POST, request.FILES)
 
         if form.is_valid():
+            # TODO: Sanitize file
             file = request.FILES['pdf_file']
             fss = FileSystemStorage()
             filename = fss.save(file.name, file)
             uploaded_file_url = fss.url(filename)
 
+            try_again = False
+            if request.POST.get('try_again') == '1':
+                try_again = True
+
             #
             cached_data = cache.get(uploaded_file_url)
-            if cached_data is None:
+            if cached_data is None or try_again:
 
                 # Perform operations on the uploaded PDF using PyMuPDF
                 with fitz.open(fss.path(filename)) as doc:
@@ -38,7 +43,7 @@ def home_view(request):
                 completion = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
-                    {"role": "system", "content": "You are a HR consultant, that helps workers to get hired at the jobs they seek. You are provided text in CV. Give advice on how to improve it."},
+                    {"role": "system", "content": "You are a career coach, that helps workers to get hired at the jobs they seek. You are provided text in CV. Give advice on how to improve it."},
                     {"role": "user", "content": text}
                 ]
                 )
