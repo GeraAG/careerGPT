@@ -11,6 +11,8 @@ django = "4.2"
 python-dotenv = "^1.0.1"
 openai = "^1.23.2"
 pymupdf = "^1.24.2"
+ruff = "^0.4.4"
+django-widget-tweaks = "^1.5.0"
 
 
 [build-system]
