@@ -68,7 +68,8 @@ def home_view(request):
             response_data = {"message": data, "file_url": uploaded_file_url}
             return JsonResponse(response_data)
         else:
-            errors = form.errors.as_json()
+            errors = form.errors
+            logger.debug(errors)
             return JsonResponse({"errors": errors}, status=400)
     else:
         form = UploadForm()
