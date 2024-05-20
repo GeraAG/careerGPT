@@ -1,11 +1,14 @@
-import os
 import fitz
+from sanitize_filename import sanitize
+from openai import OpenAI
+
+from .forms import UploadForm
+
+import os
 import logging
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.core.files.storage import FileSystemStorage
-from openai import OpenAI
-from .forms import UploadForm
 from django.core.cache import cache
 
 logger = logging.getLogger(__name__)
@@ -17,10 +20,9 @@ def home_view(request):
         form = UploadForm(request.POST, request.FILES)
 
         if form.is_valid():
-            # TODO: Sanitize file
             file = request.FILES["pdf_file"]
             fss = FileSystemStorage()
-            filename = fss.save(file.name, file)
+            filename = fss.save(sanitize(file.name), file)
             uploaded_file_url = fss.url(filename)
 
             try_again = False
@@ -29,42 +31,34 @@ def home_view(request):
 
             # Check for cached data
             cached_data = cache.get(uploaded_file_url)
+
+            # If try_again is TRUE ignore cached data and make new API request
             if cached_data is None or try_again:
+
                 # Perform operations on the uploaded PDF using PyMuPDF
-                with fitz.open(fss.path(filename)) as doc:
-                    text = ""
-                    for page in doc:
-                        text += page.get_text()
+                text = get_pdf_text(fss.path(filename))
+
+                # Remove the uploaded file after processing
                 os.remove(
                     fss.path(filename)
-                )  # Remove the uploaded file after processing
-
-                # You can add your custom logic here to process the extracted text or perform other PDF operations
-
-                completion = client.chat.completions.create(
-                    model="gpt-3.5-turbo",
-                    messages=[
-                        {
-                            "role": "system",
-                            "content": "You are a career coach, that helps workers to get hired at the jobs they seek. You are provided text from CV. Give advice on how to improve it.",
-                        },
-                        {"role": "user", "content": text},
-                    ],
                 )
-                data = completion.choices[0].message.content
 
-                logger.debug(data)
+                # Making operations on the extracted text from PDF
+                data = openai_data(text)
 
-                cache_timeout = 60 * 60 * 24 * 60  # Cache for 1 hour (adjust as needed)
-                cache.set(uploaded_file_url, data, cache_timeout)
+                # Setting cache to avoid repeated requests
+                cache.set(uploaded_file_url, data)
                 logger.debug("API is requested. Money is spent!")
             else:
                 data = cached_data
                 logger.debug(data)
+
+                # Remove the uploaded file after processing
                 os.remove(
                     fss.path(filename)
-                )  # Remove the uploaded file after processing
+                )
 
+            # Sending response from openAI to webpage
             response_data = {"message": data, "file_url": uploaded_file_url}
             return JsonResponse(response_data)
         else:
@@ -75,3 +69,30 @@ def home_view(request):
         form = UploadForm()
     context = {"form": form}
     return render(request, "pages/home.html", context)
+
+
+def get_pdf_text(file_path):
+    # Extracts text from pdf file
+    text = ""
+    with fitz.open(file_path) as doc:
+        logger.debug("File opened successfully")
+        for page in doc:
+            text += page.get_text()
+    return text
+
+
+def openai_data(text):
+    # function sends data through api and gets response
+    completion = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a career coach, that helps workers to get hired at the jobs they seek. You are provided text from CV. Give advice on how to improve it.",
+            },
+            {"role": "user", "content": text},
+        ],
+    )
+    data = completion.choices[0].message.content
+    logger.debug(data)
+    return data

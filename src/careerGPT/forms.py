@@ -6,8 +6,4 @@ class UploadForm(forms.Form):
     pdf_file = forms.FileField(
         label="",
         validators=[FileExtensionValidator(allowed_extensions=["pdf"])],
-        widget=forms.FileInput(
-            attrs={
-            }
-        ),
     )

@@ -408,6 +408,17 @@ files = [
 ]
 
 [[package]]
+name = "sanitize-filename"
+version = "1.2.0"
+description = "A permissive filename sanitizer."
+optional = false
+python-versions = "~=3.7"
+files = [
+    {file = "sanitize_filename-1.2.0-py3-none-any.whl", hash = "sha256:a5be41a4371c84cb4a666a9c3baa70e1b2086a3e50b86c7ba5dd579f5ad2f330"},
+    {file = "sanitize_filename-1.2.0.tar.gz", hash = "sha256:e75933e96d426e306eef8c270cc24c3e1971d8715288c9776d801d3d8e7b941a"},
+]
+
+[[package]]
 name = "sniffio"
 version = "1.3.1"
 description = "Sniff out which async library your code is running under"
@@ -479,4 +490,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12.2"
-content-hash = "bec189e326bbca70afcba083a97e0ff453116f3c8339457ad63059e5fbac84d5"
+content-hash = "8d1129f7581e3bbd01c0084d8c3a55de501bad92dfa65abd11baecb1032884f0"

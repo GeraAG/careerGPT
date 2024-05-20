@@ -13,6 +13,7 @@ openai = "^1.23.2"
 pymupdf = "^1.24.2"
 ruff = "^0.4.4"
 django-widget-tweaks = "^1.5.0"
+sanitize-filename = "^1.2.0"
 
 
 [build-system]
